@@ -1,7 +1,13 @@
 import React from 'react';
 import{Button, Image, Container, Row, Col} from 'react-bootstrap';
 import{BsFillHeartFill}from 'react-icons/bs';
+import {useState} from 'react';
+ 
 function HornedBeasts({img_url, title, description}){
+  const handleClick = () => {
+    setCounter(counter + 1);
+  };
+  const [counter, setCounter] = useState (0);
   return (
     <>
       <Container>
@@ -9,6 +15,7 @@ function HornedBeasts({img_url, title, description}){
           <Col xs={12}>
             <Button>
               <Image
+                onClick={handleClick}
                 src={img_url}
                 className="img-fluid"  
               />
@@ -16,6 +23,9 @@ function HornedBeasts({img_url, title, description}){
           </Col>
           <Col xs={12}>
             <BsFillHeartFill/>
+          </Col>
+          <Col xs={12}>
+            {counter}
           </Col>
         </Row>
         <Row>
