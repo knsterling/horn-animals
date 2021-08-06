@@ -1,34 +1,51 @@
-import React from 'react';
+import React, { useState } from 'react';
 import HornedBeasts from './HornedBeasts';
-import Rhino from '../images/rhinoceros-768714_1920.jpg';
-import {Container, Row, Col} from 'react-bootstrap';
+// import Rhino from '../images/rhinoceros-768714_1920.jpg';
+import {Container, Row, Col, Dropdown} from 'react-bootstrap';
 import'bootstrap/dist/css/bootstrap.min.css';
 
 function Main({animalData}){
+  let filterArray=[1, 2, 3, 100];
+  const[selectedHorns, setSelectedHorns]= useState(0);
+
   return (
     <> 
       <Container>
         <Row>
-          {animalData.map((data, key) => {
-            return (
+
+          <Col xs={12}>
+            <Dropdown>
+              <Dropdown.Toggle variant="success" id="Filter Dropdown">
+            Filter Beast by Horn Amount
+              </Dropdown.Toggle>
+
+              <Dropdown.Menu>
+                {filterArray.map(number =>(
+                  <Dropdown.Item
+                    onSelect={(eventKey)=> setSelectedHorns(parseInt(eventKey))}
+                    eventKey={number}>
+                    {number}Horn(s)
+                  </Dropdown.Item>
+                ))}
+              </Dropdown.Menu>
+            </Dropdown>
+          </Col>
+          {animalData.filter(data=> data.horns === selectedHorns
+          ).map((filteredData, key)=>
+            (
               <Col xs={12} md={6} lg={4}>
                 <div key={key}>
                   <HornedBeasts
-                    img_url={data.image_url}
-                    title={data.title}
-                    description={data.description}
+                    img_url={filteredData.image_url}
+                    title={filteredData.title}
+                    description={filteredData.description}
                   />
                 </div>
               </Col>
-            );
-          })}
+            )
+          )}
         </Row>
       </Container>
-      <HornedBeasts
-        img_url={Rhino}
-        description="large and gray with horns"
-        title= "Rhinoceros"
-      />
     </>
   );
 }
